@@ -3,7 +3,7 @@
    التخزين المؤقت والعمل بدون إنترنت
    ============================================ */
 
-const CACHE_NAME = 'studyapp-v2';
+const CACHE_NAME = 'studyapp-v3';
 const ASSETS = [
   './',
   './index.html',

@@ -33,6 +33,36 @@
     </div>
   </div>
 
+  <!-- شاشة إعداد البروفايل (المرة الأولى) -->
+  <div id="profile-setup" class="profile-setup hidden">
+    <div class="profile-setup-card">
+      <div class="profile-setup-logo">
+        <img src="diyala-univ.jpeg" alt="University of Diyala" />
+        <img src="english-dept.png" alt="Department of English" />
+      </div>
+      <h1 data-i18n="welcome">مرحباً بك</h1>
+      <p class="profile-setup-sub" data-i18n="profile_setup_sub">أدخل اسمك وصورتك للبدء</p>
+
+      <div class="profile-pic-picker">
+        <div class="profile-pic-preview" id="profile-pic-preview">
+          <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <input type="file" id="profile-pic-input" accept="image/*" hidden />
+        <button class="btn btn-ghost btn-sm" id="profile-pic-btn" data-i18n="choose_photo">اختر صورة</button>
+      </div>
+
+      <input type="text" id="profile-name-input" class="input-block" data-i18n-placeholder="your_name" placeholder="اسمك" maxlength="40" />
+      <button id="profile-save-btn" class="btn btn-primary btn-block" data-i18n="continue">متابعة</button>
+
+      <div class="profile-setup-footer">
+        <p data-i18n="profile_local_note">بياناتك محفوظة على جهازك فقط.</p>
+      </div>
+    </div>
+  </div>
+
   <!-- التطبيق الرئيسي -->
   <div id="app" class="app hidden">
 
@@ -63,15 +93,16 @@
       <!-- صفحة الرئيسية -->
       <section id="page-home" class="page active">
         <div class="welcome-card">
-          <div>
+          <div class="welcome-content">
             <p class="welcome-greeting" data-i18n="hello">مرحباً</p>
             <h2 id="user-greeting">صديقي</h2>
             <p class="welcome-message" data-i18n="welcome_msg">جاهز لجلسة دراسة منتجة؟</p>
+            <span class="role-badge" id="role-badge" data-i18n="role_guest">زائر</span>
           </div>
-          <div class="welcome-icon">
-            <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 7l9-4 9 4-9 4-9-4z"/>
-              <path d="M3 7v10l9 4 9-4V7"/>
+          <div class="welcome-pic" id="welcome-pic">
+            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
             </svg>
           </div>
         </div>
@@ -88,6 +119,15 @@
               <p class="logo-caption" data-i18n="english_dept">قسم اللغة الإنجليزية</p>
             </div>
           </div>
+        </div>
+
+        <!-- بطاقة إعلانات الممثل (للطلاب) -->
+        <div id="rep-notif-card" class="card hidden">
+          <div class="card-header">
+            <h3 data-i18n="latest_notif">آخر التنبيهات</h3>
+            <span class="badge" id="notif-count">0</span>
+          </div>
+          <div id="notif-list-home" class="notif-list-home"></div>
         </div>
 
         <div class="stats-grid">
@@ -130,7 +170,7 @@
             <div class="stat-icon stat-icon-pink">
               <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-              </svg>
+                </svg>
             </div>
             <div>
               <div class="stat-value" id="stat-favorites">0</div>
@@ -139,22 +179,33 @@
           </div>
         </div>
 
-        <!-- مؤقت بومودورو -->
+        <!-- المؤقت (قابل للتعديل) -->
         <div class="card pomodoro-card">
           <div class="card-header">
-            <h3 data-i18n="pomodoro">مؤقت بومودورو</h3>
+            <h3 data-i18n="timer">المؤقت</h3>
             <span class="badge" id="pomodoro-mode" data-i18n="focus">تركيز</span>
           </div>
           <div class="pomodoro-display" id="pomodoro-display">25:00</div>
+
+          <!-- ضابط الدقائق -->
+          <div class="timer-adjuster">
+            <button id="timer-minus" class="timer-step-btn" aria-label="Decrease">−</button>
+            <div class="timer-value">
+              <span id="timer-value">25</span>
+              <small data-i18n="minutes">دقيقة</small>
+            </div>
+            <button id="timer-plus" class="timer-step-btn" aria-label="Increase">+</button>
+          </div>
+
           <div class="pomodoro-controls">
             <button id="pomodoro-start" class="btn btn-primary" data-i18n="start">بدء</button>
             <button id="pomodoro-pause" class="btn btn-secondary hidden" data-i18n="pause">إيقاف</button>
             <button id="pomodoro-reset" class="btn btn-ghost" data-i18n="reset">إعادة</button>
           </div>
           <div class="pomodoro-modes">
-            <button class="mode-btn active" data-duration="25" data-mode="focus" data-i18n="focus">تركيز 25د</button>
-            <button class="mode-btn" data-duration="5" data-mode="short_break" data-i18n="short_break">استراحة 5د</button>
-            <button class="mode-btn" data-duration="15" data-mode="long_break" data-i18n="long_break">استراحة 15د</button>
+            <button class="mode-btn active" data-duration="25" data-mode="focus" data-i18n="focus">تركيز</button>
+            <button class="mode-btn" data-duration="5" data-mode="short_break" data-i18n="short_break">استراحة قصيرة</button>
+            <button class="mode-btn" data-duration="15" data-mode="long_break" data-i18n="long_break">استراحة طويلة</button>
           </div>
         </div>
 
@@ -229,8 +280,90 @@
         </div>
       </section>
 
+      <!-- صفحة المواد المنهجية -->
+      <section id="page-subjects" class="page">
+        <div class="page-section-header">
+          <h2 data-i18n="subjects">المواد المنهجية</h2>
+          <span class="page-section-sub" id="subjects-section-name"></span>
+        </div>
+        <div id="subjects-grid" class="subjects-grid"></div>
+        <div id="subjects-empty" class="empty-state hidden">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+          </svg>
+          <p data-i18n="no_subjects">لا توجد مواد بعد</p>
+        </div>
+      </section>
+
+      <!-- صفحة الجدول -->
+      <section id="page-schedule" class="page">
+        <div class="page-section-header">
+          <h2 data-i18n="schedule">الجدول الدراسي</h2>
+          <span class="page-section-sub" id="schedule-section-name"></span>
+        </div>
+        <div id="schedule-list" class="schedule-list"></div>
+        <div id="schedule-empty" class="empty-state hidden">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <p data-i18n="no_schedule">لا يوجد جدول بعد</p>
+        </div>
+      </section>
+
       <!-- صفحة الإعدادات -->
       <section id="page-settings" class="page">
+        <!-- بطاقة البروفايل -->
+        <div class="card profile-card">
+          <div class="profile-card-row">
+            <div class="profile-card-pic" id="settings-profile-pic">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </div>
+            <div class="profile-card-info">
+              <div class="profile-card-name" id="settings-user">زائر</div>
+              <div class="profile-card-role" id="settings-user-role" data-i18n="role_guest">زائر</div>
+              <div class="profile-card-section" id="settings-user-section"></div>
+            </div>
+            <button id="edit-profile-btn" class="icon-btn-sm" aria-label="Edit">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- كود التفعيل -->
+        <div class="card activation-card">
+          <h3 data-i18n="activation_title">كود التفعيل</h3>
+          <p class="activation-desc" data-i18n="activation_desc">أدخل كود الشعبة أو كود المالك للحصول على الصلاحيات.</p>
+          <div class="activation-row">
+            <input type="text" id="activation-input" class="input-block" data-i18n-placeholder="enter_code" placeholder="أدخل الكود" autocomplete="off" />
+            <button id="activation-btn" class="btn btn-primary" data-i18n="activate">تفعيل</button>
+          </div>
+          <button id="logout-role-btn" class="btn btn-ghost btn-block hidden" data-i18n="exit_role">الخروج من الحساب الحالي</button>
+        </div>
+
+        <!-- لوحة المالك -->
+        <div id="owner-card" class="card hidden">
+          <h3 data-i18n="owner_panel">لوحة المالك</h3>
+          <p class="settings-desc" data-i18n="owner_panel_desc">إدارة المراحل والشعب والأعضاء.</p>
+          <button id="open-admin-btn" class="btn btn-primary btn-block" data-i18n="open_admin">فتح لوحة التحكم</button>
+        </div>
+
+        <!-- لوحة الممثل -->
+        <div id="rep-card" class="card hidden">
+          <h3 data-i18n="rep_panel">لوحة ممثل الشعبة</h3>
+          <p class="settings-desc" data-i18n="rep_panel_desc">إدارة مواد وجدول وإشعارات شعبتك.</p>
+          <button id="open-rep-btn" class="btn btn-primary btn-block" data-i18n="open_rep">فتح لوحة الممثل</button>
+        </div>
+
         <div class="card">
           <h3 data-i18n="preferences">التفضيلات</h3>
           <div class="settings-row">
@@ -256,7 +389,7 @@
           <div class="settings-row">
             <div class="settings-info">
               <div class="settings-title" data-i18n="notifications">الإشعارات</div>
-              <div class="settings-desc" data-i18n="notifications_desc">تذكيرات بومودورو</div>
+              <div class="settings-desc" data-i18n="notifications_desc">تذكيرات المؤقت والتنبيهات</div>
             </div>
             <label class="switch">
               <input type="checkbox" id="notif-toggle" />
@@ -317,7 +450,7 @@
             <img src="english-dept.png" alt="Department of English" />
           </div>
           <p class="copyright" data-i18n="copyright">© جميع الحقوق محفوظة - طه الشمري</p>
-          <p class="version-info">Study App · v1.0.0</p>
+          <p class="version-info">Study App · v2.0.0</p>
         </div>
       </section>
 
@@ -331,6 +464,22 @@
           <polyline points="9 22 9 12 15 12 15 22"/>
         </svg>
         <span data-i18n="home">الرئيسية</span>
+      </button>
+      <button class="nav-item nav-academic hidden" data-page="subjects">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+        </svg>
+        <span data-i18n="subjects">المواد</span>
+      </button>
+      <button class="nav-item nav-academic hidden" data-page="schedule">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span data-i18n="schedule">الجدول</span>
       </button>
       <button class="nav-item" data-page="files">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -435,6 +584,98 @@
       <div class="modal-actions">
         <button id="task-cancel" class="btn btn-ghost" data-i18n="cancel">إلغاء</button>
         <button id="task-save" class="btn btn-primary" data-i18n="save">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- لوحة المالك (Admin) -->
+  <div id="admin-modal" class="modal hidden admin-modal">
+    <div class="viewer-header">
+      <button id="admin-close" class="icon-btn">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <h3 class="viewer-title" data-i18n="owner_panel">لوحة المالك</h3>
+      <div class="viewer-actions"></div>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="structure" data-i18n="structure">الهيكل</button>
+      <button class="admin-tab" data-tab="members" data-i18n="members">الأعضاء</button>
+      <button class="admin-tab" data-tab="reps" data-i18n="reps">الممثلون</button>
+    </div>
+    <div class="admin-body">
+      <div class="admin-pane active" id="admin-pane-structure"></div>
+      <div class="admin-pane" id="admin-pane-members"></div>
+      <div class="admin-pane" id="admin-pane-reps"></div>
+    </div>
+  </div>
+
+  <!-- لوحة الممثل -->
+  <div id="rep-modal" class="modal hidden admin-modal">
+    <div class="viewer-header">
+      <button id="rep-close" class="icon-btn">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <h3 class="viewer-title" data-i18n="rep_panel">لوحة الممثل</h3>
+      <div class="viewer-actions"></div>
+    </div>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="rep-subjects" data-i18n="subjects">المواد</button>
+      <button class="admin-tab" data-tab="rep-schedule" data-i18n="schedule">الجدول</button>
+      <button class="admin-tab" data-tab="rep-notifs" data-i18n="notifications">التنبيهات</button>
+    </div>
+    <div class="admin-body">
+      <div class="admin-pane active" id="rep-pane-subjects"></div>
+      <div class="admin-pane" id="rep-pane-schedule"></div>
+      <div class="admin-pane" id="rep-pane-notifs"></div>
+    </div>
+  </div>
+
+  <!-- نافذة عامة (input prompt) -->
+  <div id="prompt-modal" class="modal-small hidden">
+    <div class="modal-content">
+      <h3 id="prompt-title">إدخال</h3>
+      <input type="text" id="prompt-input" />
+      <input type="text" id="prompt-input2" class="hidden" />
+      <input type="text" id="prompt-input3" class="hidden" />
+      <input type="text" id="prompt-input4" class="hidden" />
+      <div class="modal-actions">
+        <button id="prompt-cancel" class="btn btn-ghost" data-i18n="cancel">إلغاء</button>
+        <button id="prompt-save" class="btn btn-primary" data-i18n="save">حفظ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة عرض ملفات المادة -->
+  <div id="subject-modal" class="modal hidden">
+    <div class="viewer-header">
+      <button id="subject-close" class="icon-btn">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <h3 id="subject-modal-title" class="viewer-title"></h3>
+      <div class="viewer-actions"></div>
+    </div>
+    <div class="subject-modal-body" id="subject-modal-body"></div>
+  </div>
+
+  <!-- نافذة عرض عضو -->
+  <div id="member-modal" class="modal-small hidden">
+    <div class="modal-content member-modal-content">
+      <div class="member-modal-pic" id="member-modal-pic"></div>
+      <h3 id="member-modal-name"></h3>
+      <p id="member-modal-role" class="member-modal-role"></p>
+      <p id="member-modal-section" class="member-modal-section"></p>
+      <p id="member-modal-joined" class="member-modal-joined"></p>
+      <div class="modal-actions">
+        <button id="member-modal-close" class="btn btn-primary" data-i18n="close">إغلاق</button>
       </div>
     </div>
   </div>

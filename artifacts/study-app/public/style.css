@@ -1063,3 +1063,523 @@ button:focus-visible, input:focus-visible, select:focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
 }
+
+/* ============================================
+   v2 - شاشة إعداد البروفايل
+   ============================================ */
+.profile-setup {
+  position: fixed; inset: 0; z-index: 9000;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.25rem;
+  overflow-y: auto;
+}
+.profile-setup.hidden { display: none; }
+.profile-setup-card {
+  background: var(--bg-card);
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.25);
+  text-align: center;
+}
+.profile-setup-logo {
+  display: flex; gap: 1rem; align-items: center; justify-content: center;
+  margin-bottom: 1rem;
+}
+.profile-setup-logo img {
+  width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+  border: 2px solid var(--bg-elevated);
+}
+.profile-setup h1 {
+  margin: 0.25rem 0 0.5rem;
+  color: var(--text-primary);
+  font-size: 1.5rem;
+}
+.profile-setup-sub {
+  color: var(--text-secondary);
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+}
+.profile-pic-picker {
+  display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+.profile-pic-preview {
+  width: 96px; height: 96px; border-radius: 50%;
+  background: var(--bg-elevated);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary);
+  overflow: hidden;
+  border: 3px solid var(--primary);
+}
+.profile-pic-preview img { width: 100%; height: 100%; object-fit: cover; }
+.input-block {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+}
+.btn-block { width: 100%; }
+.profile-setup-footer {
+  margin-top: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.profile-setup-footer p { margin: 0; }
+
+/* ============================================
+   v2 - بطاقة الترحيب (مع صورة + شارة الدور)
+   ============================================ */
+.welcome-card { position: relative; }
+.welcome-content { flex: 1; }
+.welcome-pic {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.welcome-pic img { width: 100%; height: 100%; object-fit: cover; }
+.role-badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+}
+.role-badge.role-owner { background: #f59e0b; }
+.role-badge.role-rep { background: #10b981; }
+.role-badge.role-student { background: #3b82f6; }
+.role-badge.role-guest { background: rgba(255,255,255,0.25); }
+
+/* ============================================
+   v2 - ضابط المؤقت (+/-)
+   ============================================ */
+.timer-adjuster {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem;
+  margin: 0.5rem 0 0.75rem;
+}
+.timer-step-btn {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s, transform .1s;
+}
+.timer-step-btn:hover { background: var(--primary); color:#fff; }
+.timer-step-btn:active { transform: scale(0.92); }
+.timer-value {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 70px;
+}
+.timer-value span {
+  font-size: 1.3rem; font-weight: 700; color: var(--text-primary);
+}
+.timer-value small {
+  font-size: 0.75rem; color: var(--text-secondary);
+}
+
+/* ============================================
+   v2 - بطاقة البروفايل في الإعدادات
+   ============================================ */
+.profile-card .profile-card-row {
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.profile-card-pic {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--bg-elevated);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary);
+  overflow: hidden;
+  border: 2px solid var(--primary);
+  flex-shrink: 0;
+}
+.profile-card-pic img { width: 100%; height: 100%; object-fit: cover; }
+.profile-card-info { flex: 1; min-width: 0; }
+.profile-card-name { font-weight: 600; color: var(--text-primary); font-size: 1.05rem; }
+.profile-card-role { color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.15rem; }
+.profile-card-section { color: var(--primary); font-size: 0.8rem; margin-top: 0.15rem; font-weight: 500; }
+
+/* ============================================
+   v2 - بطاقة كود التفعيل
+   ============================================ */
+.activation-card .activation-desc {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0.5rem 0 0.85rem;
+}
+.activation-row { display: flex; gap: 0.5rem; align-items: stretch; }
+.activation-row .input-block { margin: 0; flex: 1; }
+.activation-row .btn { white-space: nowrap; }
+
+/* ============================================
+   v2 - رأس الصفحات الأكاديمية
+   ============================================ */
+.page-section-header {
+  margin-bottom: 1rem;
+}
+.page-section-header h2 {
+  margin: 0 0 0.25rem;
+  color: var(--text-primary);
+  font-size: 1.25rem;
+}
+.page-section-sub {
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* ============================================
+   v2 - شبكة المواد
+   ============================================ */
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+.subject-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  padding: 1rem 0.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .15s, border-color .15s, box-shadow .15s;
+}
+.subject-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(99,102,241,.15);
+}
+.subject-icon {
+  width: 56px; height: 56px;
+  margin: 0 auto 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+}
+.subject-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+.subject-del {
+  position: absolute;
+  top: 0.4rem;
+  inset-inline-end: 0.4rem;
+  width: 24px; height: 24px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(239,68,68,.12);
+  color: #ef4444;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ============================================
+   v2 - الجدول الدراسي
+   ============================================ */
+.schedule-list { display: flex; flex-direction: column; gap: 1rem; }
+.schedule-day {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  padding: 0.75rem 0.85rem;
+}
+.schedule-day-name {
+  margin: 0 0 0.6rem;
+  color: var(--primary);
+  font-size: 1rem;
+}
+.schedule-day-items { display: flex; flex-direction: column; gap: 0.5rem; }
+.schedule-item {
+  display: flex; gap: 0.75rem; align-items: center;
+  padding: 0.6rem;
+  background: var(--bg-elevated);
+  border-radius: 0.6rem;
+}
+.schedule-time {
+  font-weight: 700;
+  color: var(--primary);
+  min-width: 56px;
+  font-variant-numeric: tabular-nums;
+}
+.schedule-info { flex: 1; min-width: 0; }
+.schedule-subject { font-weight: 600; color: var(--text-primary); }
+.schedule-doctor { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+.schedule-edit-item {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.6rem 0.85rem;
+  background: var(--bg-elevated);
+  border-radius: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+.schedule-edit-info { flex: 1; min-width: 0; }
+.schedule-meta { font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.15rem; }
+
+/* ============================================
+   v2 - لوحات الإدارة (Admin / Rep)
+   ============================================ */
+.admin-modal { display: flex; flex-direction: column; }
+.admin-modal.hidden { display: none; }
+.admin-tabs {
+  display: flex;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 0.5rem;
+  flex-shrink: 0;
+}
+.admin-tab {
+  flex: 1;
+  padding: 0.85rem 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .15s, border-color .15s;
+}
+.admin-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.admin-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--bg);
+}
+.admin-pane { display: none; }
+.admin-pane.active { display: block; }
+
+/* بطاقة المرحلة */
+.stage-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  padding: 0.85rem;
+  margin-top: 1rem;
+}
+.stage-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.75rem;
+}
+.stage-head h4 { margin: 0; color: var(--text-primary); font-size: 1.05rem; }
+.stage-actions { display: flex; gap: 0.4rem; align-items: center; }
+.icon-btn-sm.danger { color: #ef4444; }
+
+.sections-list { display: flex; flex-direction: column; gap: 0.6rem; }
+.section-card {
+  background: var(--bg-elevated);
+  border-radius: 0.6rem;
+  padding: 0.7rem;
+}
+.section-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.5rem;
+}
+.section-name { font-weight: 600; color: var(--text-primary); }
+.section-meta { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.85rem; }
+.code-row { display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+.code-label { color: var(--text-secondary); }
+.code-value {
+  background: var(--bg-card);
+  padding: 0.15rem 0.5rem;
+  border-radius: 0.3rem;
+  font-family: monospace;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 1px;
+}
+.meta-row { display: flex; gap: 0.4rem; color: var(--text-secondary); }
+.meta-row strong { color: var(--text-primary); }
+
+/* الأعضاء (نمط تليجرام) */
+.members-group { margin-bottom: 1rem; }
+.members-group-head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.5rem 0.25rem;
+}
+.members-group-head h4 { margin: 0; color: var(--text-primary); font-size: 1rem; }
+.members-list {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.85rem;
+  overflow: hidden;
+}
+.member-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .15s;
+}
+.member-row:last-child { border-bottom: none; }
+.member-row:hover { background: var(--bg-elevated); }
+.member-pic {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg-elevated);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-secondary);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.member-pic img { width: 100%; height: 100%; object-fit: cover; }
+.member-info { flex: 1; min-width: 0; }
+.member-name { font-weight: 600; color: var(--text-primary); }
+.member-role { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.15rem; }
+.self-tag { color: var(--primary); font-weight: 500; font-size: 0.8em; }
+.member-actions { display: flex; gap: 0.3rem; flex-shrink: 0; }
+.btn.btn-ghost.danger, .btn.danger { color: #ef4444; }
+
+/* ============================================
+   v2 - بطاقة التنبيهات في الرئيسية
+   ============================================ */
+.notif-list-home { display: flex; flex-direction: column; gap: 0.5rem; }
+.notif-item {
+  display: flex; gap: 0.6rem; align-items: flex-start;
+  padding: 0.5rem;
+  background: var(--bg-elevated);
+  border-radius: 0.5rem;
+}
+.notif-bullet {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--primary);
+  margin-top: 0.4rem;
+  flex-shrink: 0;
+}
+.notif-content { flex: 1; min-width: 0; }
+.notif-content p { margin: 0; color: var(--text-primary); font-size: 0.92rem; }
+.notif-content small { color: var(--text-secondary); font-size: 0.75rem; }
+
+/* قائمة التنبيهات في لوحة الممثل */
+.notif-list { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+.notif-edit-item {
+  display: flex; gap: 0.6rem; align-items: flex-start;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+}
+.notif-edit-content { flex: 1; min-width: 0; }
+.notif-edit-content p { margin: 0; color: var(--text-primary); font-size: 0.92rem; }
+.notif-edit-content small { color: var(--text-secondary); font-size: 0.75rem; }
+
+/* ============================================
+   v2 - عارض المادة (قائمة ملازم/أسئلة)
+   ============================================ */
+.subject-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background: var(--bg);
+}
+.subject-section { margin-bottom: 1.25rem; }
+.subject-section-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.6rem;
+}
+.subject-section-head h4 { margin: 0; color: var(--text-primary); font-size: 1.05rem; }
+.materials-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.material-item {
+  display: flex; gap: 0.6rem; align-items: center;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.material-item:hover { border-color: var(--primary); }
+.material-icon {
+  width: 36px; height: 36px;
+  border-radius: 0.45rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.material-info { flex: 1; min-width: 0; }
+.material-name {
+  color: var(--text-primary); font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.material-meta { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.15rem; }
+.material-del {
+  background: rgba(239,68,68,.1) !important;
+  color: #ef4444 !important;
+}
+
+/* ============================================
+   v2 - نافذة عضو
+   ============================================ */
+.member-modal-content { text-align: center; }
+.member-modal-pic {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  overflow: hidden;
+  border: 3px solid var(--primary);
+}
+.member-modal-pic img { width: 100%; height: 100%; object-fit: cover; }
+.member-modal-content h3 { margin: 0 0 0.3rem; color: var(--text-primary); }
+.member-modal-role { color: var(--primary); font-weight: 500; margin: 0 0 0.2rem; }
+.member-modal-section { color: var(--text-secondary); font-size: 0.9rem; margin: 0 0 0.2rem; }
+.member-modal-joined { color: var(--text-secondary); font-size: 0.8rem; margin: 0 0 1rem; }
+
+/* ============================================
+   v2 - prompt-modal
+   ============================================ */
+#prompt-modal .modal-content input {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border-radius: 0.55rem;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-size: 1rem;
+  margin-bottom: 0.6rem;
+  box-sizing: border-box;
+}
+#prompt-modal .modal-content input.hidden { display: none; }
+
+/* ============================================
+   v2 - زر صغير btn-sm
+   ============================================ */
+.btn-sm { padding: 0.4rem 0.75rem; font-size: 0.85rem; }
+
+/* ============================================
+   v2 - تجاوب
+   ============================================ */
+@media (min-width: 640px) {
+  .subjects-grid { grid-template-columns: repeat(3, 1fr); }
+  .activation-row { gap: 0.75rem; }
+}
+@media (min-width: 1024px) {
+  .subjects-grid { grid-template-columns: repeat(4, 1fr); }
+}
