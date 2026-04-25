@@ -3,7 +3,7 @@
    التخزين المؤقت والعمل بدون إنترنت
    ============================================ */
 
-const CACHE_NAME = 'studyapp-v1';
+const CACHE_NAME = 'studyapp-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,8 @@ const ASSETS = [
   './favicon.svg',
   './icon-192.png',
   './icon-512.png',
+  './diyala-univ.jpeg',
+  './english-dept.png',
 ];
 
 // تثبيت الـ SW وتخزين الأصول الأساسية
