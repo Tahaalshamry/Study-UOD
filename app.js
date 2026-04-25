@@ -354,12 +354,11 @@ function logout() {
 }
 
 function showAuth() {
-  document.getElementById('app').classList.add('hidden');
-  document.getElementById('auth-screen').classList.remove('hidden');
+  // تم إزالة شاشة تسجيل الدخول — التطبيق يعمل بدون حساب
+  showApp();
 }
 
 function showApp() {
-  document.getElementById('auth-screen').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
   updateUserGreeting();
   refreshAll();
@@ -367,8 +366,10 @@ function showApp() {
 
 function updateUserGreeting() {
   const name = state.user?.name || (state.language === 'ar' ? 'صديقي' : 'friend');
-  document.getElementById('user-greeting').textContent = name;
-  document.getElementById('settings-user').textContent = state.user?.email || (state.language === 'ar' ? 'زائر' : 'Guest');
+  const greetEl = document.getElementById('user-greeting');
+  if (greetEl) greetEl.textContent = name;
+  const settingsUserEl = document.getElementById('settings-user');
+  if (settingsUserEl) settingsUserEl.textContent = state.user?.email || (state.language === 'ar' ? 'زائر' : 'Guest');
 }
 
 // ============================================
@@ -639,10 +640,23 @@ async function openViewer(id) {
     pdfToolbar.classList.remove('hidden');
     state.pdfZoom = 1;
     updateZoomDisplay();
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const openLabel = state.language === 'ar' ? 'افتح PDF في تبويب جديد' : 'Open PDF in new tab';
+    const iosNote = state.language === 'ar'
+      ? 'لتصفح كامل صفحات الملف على الآيفون، اضغط الزر أعلاه'
+      : 'Tap the button above to browse all pages on iOS';
     content.innerHTML = `
       <div class="pdf-wrapper" id="pdf-wrapper">
-        <div class="pdf-frame-wrapper" id="pdf-frame-wrapper" style="width:100%;height:100%;">
-          <iframe src="${currentBlobUrl}#toolbar=0" style="width:100%;height:100%;border:none;"></iframe>
+        <div class="pdf-open-bar">
+          <a class="btn btn-primary" id="pdf-open-tab" href="${currentBlobUrl}" target="_blank" rel="noopener">
+            ⤴ ${escapeHtml(openLabel)}
+          </a>
+          ${isIOS ? `<div class="pdf-ios-hint">${escapeHtml(iosNote)}</div>` : ''}
+        </div>
+        <div class="pdf-frame-wrapper" id="pdf-frame-wrapper">
+          <object data="${currentBlobUrl}#view=FitH" type="application/pdf" width="100%" height="100%">
+            <embed src="${currentBlobUrl}#view=FitH" type="application/pdf" width="100%" height="100%" />
+          </object>
         </div>
       </div>
     `;
@@ -1053,50 +1067,6 @@ window.addEventListener('beforeinstallprompt', (e) => {
 // 19. إعداد المستمعين (Event Listeners)
 // ============================================
 function setupEventListeners() {
-  // تبديل بين تسجيل الدخول والتسجيل
-  document.querySelectorAll('.auth-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.tab;
-      document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === target));
-      document.getElementById('login-form').classList.toggle('hidden', target !== 'login');
-      document.getElementById('register-form').classList.toggle('hidden', target !== 'register');
-    });
-  });
-
-  // تسجيل الدخول
-  document.getElementById('login-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    try {
-      await login(fd.get('email'), fd.get('password'));
-      showToast(t('welcome_back'));
-      showApp();
-    } catch (err) {
-      showToast(err.message);
-    }
-  });
-
-  // إنشاء حساب
-  document.getElementById('register-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    try {
-      await register(fd.get('name'), fd.get('email'), fd.get('password'));
-      showToast(t('signup_success'));
-      showApp();
-    } catch (err) {
-      showToast(err.message);
-    }
-  });
-
-  // المتابعة كزائر
-  document.getElementById('skip-auth').addEventListener('click', () => {
-    showApp();
-  });
-
-  // تسجيل الخروج
-  document.getElementById('logout-btn').addEventListener('click', logout);
-
   // الثيم
   document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
   document.getElementById('dark-toggle').addEventListener('change', (e) => {
@@ -1299,22 +1269,26 @@ async function init() {
   // إعداد المستمعين
   setupEventListeners();
 
+  // التطبيق يعمل بدون تسجيل دخول — مستخدم زائر دائماً
+  if (!state.user) {
+    state.user = { name: state.language === 'ar' ? 'صديقي' : 'friend', email: '' };
+  }
+
   // إخفاء شاشة البداية
   setTimeout(() => {
-    document.getElementById('splash-screen').style.opacity = '0';
+    const splash = document.getElementById('splash-screen');
+    if (splash) splash.style.opacity = '0';
     setTimeout(() => {
-      document.getElementById('splash-screen').remove();
-      if (state.user) {
-        showApp();
-      } else {
-        showAuth();
-      }
+      if (splash) splash.remove();
+      showApp();
     }, 300);
   }, 800);
 }
 
 init().catch(err => {
   console.error('Init failed:', err);
-  document.getElementById('splash-screen').remove();
-  showAuth();
+  const splash = document.getElementById('splash-screen');
+  if (splash) splash.remove();
+  state.user = { name: 'friend', email: '' };
+  showApp();
 });

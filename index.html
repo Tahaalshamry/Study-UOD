@@ -33,58 +33,6 @@
     </div>
   </div>
 
-  <!-- شاشة تسجيل الدخول -->
-  <div id="auth-screen" class="auth-screen hidden">
-    <div class="auth-container">
-      <div class="auth-header">
-        <div class="auth-logo">
-          <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M8 14l24-8 24 8-24 8z"/>
-            <path d="M8 14v22l24 8 24-8V14"/>
-            <path d="M32 22v22"/>
-          </svg>
-        </div>
-        <h2 id="auth-title" data-i18n="welcome">مرحباً بك</h2>
-        <p id="auth-subtitle" data-i18n="auth_subtitle">سجل دخولك أو أنشئ حساباً جديداً</p>
-      </div>
-
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-tab="login" data-i18n="login">تسجيل الدخول</button>
-        <button class="auth-tab" data-tab="register" data-i18n="register">إنشاء حساب</button>
-      </div>
-
-      <form id="login-form" class="auth-form">
-        <div class="field">
-          <label data-i18n="email">البريد الإلكتروني</label>
-          <input type="email" name="email" required autocomplete="email" />
-        </div>
-        <div class="field">
-          <label data-i18n="password">كلمة المرور</label>
-          <input type="password" name="password" required autocomplete="current-password" minlength="4" />
-        </div>
-        <button type="submit" class="btn btn-primary btn-block" data-i18n="login">تسجيل الدخول</button>
-      </form>
-
-      <form id="register-form" class="auth-form hidden">
-        <div class="field">
-          <label data-i18n="name">الاسم</label>
-          <input type="text" name="name" required autocomplete="name" />
-        </div>
-        <div class="field">
-          <label data-i18n="email">البريد الإلكتروني</label>
-          <input type="email" name="email" required autocomplete="email" />
-        </div>
-        <div class="field">
-          <label data-i18n="password">كلمة المرور</label>
-          <input type="password" name="password" required autocomplete="new-password" minlength="4" />
-        </div>
-        <button type="submit" class="btn btn-primary btn-block" data-i18n="create_account">إنشاء حساب</button>
-      </form>
-
-      <button id="skip-auth" class="link-btn" data-i18n="skip_auth">المتابعة كزائر</button>
-    </div>
-  </div>
-
   <!-- التطبيق الرئيسي -->
   <div id="app" class="app hidden">
 
@@ -269,16 +217,6 @@
 
       <!-- صفحة الإعدادات -->
       <section id="page-settings" class="page">
-        <div class="card">
-          <div class="settings-row">
-            <div class="settings-info">
-              <div class="settings-title" data-i18n="account">الحساب</div>
-              <div class="settings-desc" id="settings-user">زائر</div>
-            </div>
-          </div>
-          <button id="logout-btn" class="btn btn-secondary btn-block" data-i18n="logout">تسجيل الخروج</button>
-        </div>
-
         <div class="card">
           <h3 data-i18n="preferences">التفضيلات</h3>
           <div class="settings-row">
